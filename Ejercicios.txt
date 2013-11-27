@@ -1,0 +1,23 @@
+EJERCICIOS
+----------
+
+Explicar qué es lo que se ejecuta de código cuando:
+
+1. Click en botón de juego.
+2. Se escribe mensaje de chat sin estar autenticado.
+3. Se escribe mensaje de chat estando autenticado.
+4. Se termina partida con puntuación alta sin estar autenticado.
+5. Se termina partida con puntuación alta estando autenticado.
+6. Qué sale en la consola cuando te autenticas (sign in)?
+7. Qué sale en la consola cuando te desconectas (sign out)?
+
+
+1. Se ejecutan las líneas 112-130 del client.js para los eventos asociados a la la plantilla que contiene los distintos juegos (o ninguno). Dependiendo del que seleccionemos se mostrará su contenedor (plantilla de cada juego), el resto se ocultan y se almacena en la variable de sesión el juego que se está ejecutando. Además cuando pulsemos un juego nos estamos suscribiendo a dicho juego y así se lo comunicamos al server, por lo que nos mandará los mensajes (sólo los 10 últimos) y ranking de puntuaciones para el current game (hay sendas plantillas para cada juego y así representarlas en el navegador).
+
+2. Se ejecutan las líneas 84-87 y 100-102 de client.js porque no hay almacenado ningún userId (único) al pulsar la tecla enter (enviar mensaje). Estas líneas muestran el contenido html de index que escribe el mensaje de error (correspondiente a la plantilla input).
+
+3. Se ejecutan líneas 84-97 de client.js al pulsar enter que recoge el userId almacenado en el lado del servidor gracias a la api de registro. Se almacena el mensaje (en el caso de que la caja input no esté vacía) con las propiedades id del user, nombre de usuario, texto, fecha, juego asociado... Y se muestra en el navegador después de vaciar la caja sólo si la variable de sesión current game corresponde con el juego asociado (y sino se mostrará cuando cambie).
+
+4 y 5. Cuando el current game termina la partida (en su respectivo código js, por ejemplo, línea 104 de game.js de alien invasion) llama al servidor de Meteor (líneas 46-57 de server.js) con los puntos obtenidos. Si hay un usuario registrado para dicha partida se almacenará en matches el nombre de usuario, puntuación, tiempo y juego correspondiente para así mostrarlo en el navegador de todos los clientes si el current game corresponde. Si no hay usuario registrado se ignorará la puntuación.
+
+6 y 7. Cuando te autenticas sale el id que te corresponde en la base de datos del servidor (único). Si te desconectas saldrá id nula por lo que no hay entrada en la base de datos correspondiente. Líneas 56-61 de server.js se ejecutan.
